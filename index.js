@@ -58,7 +58,7 @@ client.connect(err => {
             })
     });
 
-    app.post('/deleteEvent/', (req, res) => {
+    app.delete('/deleteEvent/', (req, res) => {
         res.send(req.query.id)
         // volunteeringScopesCollection.deleteOne({ _id: ObjectId(req.query.id) })
         //     .then(result => {
