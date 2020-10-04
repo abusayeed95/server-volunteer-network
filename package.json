@@ -4,7 +4,8 @@
   "description": "This is server for Assignment 10.. Here I used node.js mongoDB React js material UI react-bootstrap and some other libraries...",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "node index.js",
+    "start:dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
