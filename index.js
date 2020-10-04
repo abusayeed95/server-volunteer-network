@@ -60,13 +60,13 @@ client.connect(err => {
 
     app.delete('/deleteEvent/', (req, res) => {
         res.send(req.query.id)
-        volunteeringScopesCollection.deleteOne({ _id: ObjectId(req.query.id) })
-            .then(result => {
-                if (result.deletedCount > 0) {
-                    res.sendStatus(200);
-                    res.send(result.insertedCount > 0)
-                }
-            })
+        // volunteeringScopesCollection.deleteOne({ _id: ObjectId(req.query.id) })
+        //     .then(result => {
+        //         if (result.deletedCount > 0) {
+        //             res.sendStatus(200);
+        //             res.send(result.insertedCount > 0)
+        //         }
+        //     })
     })
 
     app.post('/registerForVolunteering', (req, res) => {
@@ -89,13 +89,12 @@ client.connect(err => {
 
     app.delete('/cancelRegistration/', (req, res) => {
         res.send(req.query.id)
-        registerCollection.deleteOne({ _id: ObjectId(req.query.id) })
-            .then(result => {
-                if (result.deletedCount > 0) {
-                    res.sendStatus(200);
-                    res.send(result.deletedCount >)
-                }
-            })
+        // registerCollection.deleteOne({ _id: ObjectId(req.query.id) })
+        //     .then(result => {
+        //         if (result.deletedCount > 0) {
+        //             res.sendStatus(200);
+        //         }
+        //     })
     });
 
 
