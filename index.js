@@ -58,6 +58,16 @@ client.connect(err => {
             })
     });
 
+    app.post('/deleteEvent/', (req, res) => {
+        volunteeringScopesCollection.deleteOne({ _id: ObjectId(req.query.id) })
+            .then(result => {
+                if (result.deletedCount > 0) {
+                    res.sendStatus(200);
+                    res.send(result.insertedCount > 0)
+                }
+            })
+    })
+
     app.post('/registerForVolunteering', (req, res) => {
         registerCollection.insertOne(req.body)
             .then(result => {
@@ -87,7 +97,5 @@ client.connect(err => {
 
 
 });
-
-
 
 app.listen(PORT || 4444)
