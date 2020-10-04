@@ -5,12 +5,18 @@ const mongodb = require('mongodb');
 require('dotenv').config();
 const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectID;
+const admin = require('firebase-admin');
+const serviceAccount = require("./volunteer--network-firebase-adminsdk-um2n1-e06fb4e34a.json");
+
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://volunteer--network.firebaseio.com"
+});
 
 const { DB_USER, DB_PASS, DB_NAME, DB_REGISTERS_COLLECTION, DB_VOLUNTEERING_SCOPES_COLLECTION, PORT } = process.env;
 
-
-
 const app = express();
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -76,11 +82,24 @@ client.connect(err => {
     });
 
     app.get('/getUserEvents/', (req, res) => {
-        registerCollection.find({ uniqueId: req.query.uniqueId })
-            .toArray((err, collections) => {
-                res.send(collections);
-                console.log(err ? err : 'Successfully Found Users Events')
-            })
+        const bearer = req.headers.authorization;
+        if (bearer && bearer.startsWith('Bearer ')) {
+            const token = bearer.split(' ');
+
+            admin.auth().verifyIdToken(token[1])
+                .then(decodedToken => {
+                    const uniqueIdFromToken = decodedToken.uid;
+
+                    registerCollection.find({ uniqueId: uniqueIdFromToken })
+                        .toArray((err, collections) => {
+                            res.send(collections);
+                            console.log(err ? err : 'Successfully Found Users Events')
+                        })
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
     });
 
     app.delete('/cancelRegistration/', (req, res) => {
