@@ -67,7 +67,12 @@ client.connect(err => {
     app.delete('/deleteEvent/', (req, res) => {
         volunteeringScopesCollection.deleteOne({ _id: ObjectId(req.query.id) })
             .then(result => {
-                res.sendStatus(result.insertedCount > 0 && 200)
+                console.log(result.deletedCount)
+                if (result.deletedCount > 0) {
+                    res.sendStatus(200);
+                    console.log('Deleted Successfully')
+                }
+                else (console.log(result))
             })
     })
 
@@ -77,7 +82,9 @@ client.connect(err => {
                 console.log(result.insertedCount)
                 if (result.insertedCount > 0) {
                     res.sendStatus(200);
+                    console.log('Posted Successfully')
                 }
+                else (console.log(result))
             })
     });
 
@@ -105,7 +112,12 @@ client.connect(err => {
     app.delete('/cancelRegistration/', (req, res) => {
         registerCollection.deleteOne({ _id: ObjectId(req.query.id) })
             .then(result => {
-                res.sendStatus(result.insertedCount > 0 && 200)
+                console.log(result.deletedCount)
+                if (result.deletedCount > 0) {
+                    res.sendStatus(200);
+                    console.log('Deleted Successfully')
+                }
+                else (console.log(result))
             })
     });
 
