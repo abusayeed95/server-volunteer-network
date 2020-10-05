@@ -30,6 +30,7 @@ client.connect(err => {
     const volunteeringScopesCollection = client.db(`${DB_NAME}`).collection(`${DB_VOLUNTEERING_SCOPES_COLLECTION}`);
 
 
+    //ALL GET METHOD'S API
 
     app.get('/', (req, res) => {
         res.send('<h1> Welcome to Volunteer Network Database</h1>');
@@ -40,51 +41,6 @@ client.connect(err => {
             .toArray((err, collection) => {
                 res.send(collection);
                 console.log(err ? err : 'Successfully found all Scopes Objects')
-            })
-    });
-
-    app.get('/registrationInfo', (req, res) => {
-        registerCollection.find({})
-            .toArray((err, collection) => {
-                console.log(err ? err : 'Successfully found all Registration information');
-                res.send(collection);
-            })
-    })
-
-
-    app.post('/addVolunteeringScope', (req, res) => {
-        volunteeringScopesCollection.insertOne(req.body)
-            .then(result => {
-                console.log(result.insertedCount)
-                if (result.insertedCount > 0) {
-                    res.sendStatus(200);
-                    console.log('Posted Successfully')
-                }
-                else (console.log(result))
-            })
-    });
-
-    app.delete('/deleteEvent/', (req, res) => {
-        volunteeringScopesCollection.deleteOne({ _id: ObjectId(req.query.id) })
-            .then(result => {
-                console.log(result.deletedCount)
-                if (result.deletedCount > 0) {
-                    res.sendStatus(200);
-                    console.log('Deleted Successfully')
-                }
-                else (console.log(result))
-            })
-    })
-
-    app.post('/registerForVolunteering', (req, res) => {
-        registerCollection.insertOne(req.body)
-            .then(result => {
-                console.log(result.insertedCount)
-                if (result.insertedCount > 0) {
-                    res.sendStatus(200);
-                    console.log('Posted Successfully')
-                }
-                else (console.log(result))
             })
     });
 
@@ -109,6 +65,57 @@ client.connect(err => {
         }
     });
 
+    app.get('/registrationInfo', (req, res) => {
+        registerCollection.find({})
+            .toArray((err, collection) => {
+                console.log(err ? err : 'Successfully found all Registration information');
+                res.send(collection);
+            })
+    });
+
+
+    //ALL POST METHOD'S API
+
+
+    app.post('/addVolunteeringScope', (req, res) => {
+        volunteeringScopesCollection.insertOne(req.body)
+            .then(result => {
+                console.log(result.insertedCount)
+                if (result.insertedCount > 0) {
+                    res.sendStatus(200);
+                    console.log('Posted Successfully')
+                }
+                else (console.log(result))
+            })
+    });
+
+    app.post('/registerForVolunteering', (req, res) => {
+        registerCollection.insertOne(req.body)
+            .then(result => {
+                console.log(result.insertedCount)
+                if (result.insertedCount > 0) {
+                    res.sendStatus(200);
+                    console.log('Posted Successfully')
+                }
+                else (console.log(result))
+            })
+    });
+
+
+    //ALL DELETE METHOD'S API
+
+    app.delete('/deleteEvent/', (req, res) => {
+        volunteeringScopesCollection.deleteOne({ _id: ObjectId(req.query.id) })
+            .then(result => {
+                console.log(result.deletedCount)
+                if (result.deletedCount > 0) {
+                    res.sendStatus(200);
+                    console.log('Deleted Successfully')
+                }
+                else (console.log(result))
+            })
+    });
+
     app.delete('/cancelRegistration/', (req, res) => {
         registerCollection.deleteOne({ _id: ObjectId(req.query.id) })
             .then(result => {
@@ -120,7 +127,6 @@ client.connect(err => {
                 else (console.log(result))
             })
     });
-
 
 });
 
